@@ -3,7 +3,7 @@
     // データに状態を記述
     data: function(){
       return {
-        title: 'Todo App with Vue.js',
+        title: 'Todo App with Vue.js (v2.5.13)',
         todos: []
       }
     },

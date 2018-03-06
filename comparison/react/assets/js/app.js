@@ -5,7 +5,7 @@
       super();
 
       this.state = {
-        title: 'Todo App with React.js',
+        title: 'Todo App with React.js (v16.2.0)',
         todos: [],
         text: ''
       };

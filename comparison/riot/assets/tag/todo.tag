@@ -108,7 +108,7 @@
   </style>
 
   <script>
-    this.title = 'Todo App with Riot.js';
+    this.title = 'Todo App with Riot.js (v3.9.0)';
 
     this.todos = [];
 
