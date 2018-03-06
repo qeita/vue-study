@@ -24,8 +24,16 @@
       this.setState({ text: '' });
     }
 
-    delTask(){
+    delTask(e){
+      let tasks = [];
+      let index = parseInt(e.target.getAttribute('data-index'), 10);
 
+      for(let i = 0, cnt = this.state.todos.length; i < cnt; i++){
+        if(i !== index){
+          tasks.push(this.state.todos[i]);
+        }
+      }
+      this.setState({ todos: tasks });
     }
 
     render(){
@@ -34,7 +42,7 @@
       let items = todos.map( (el, index) => {
         return <li key={index}>
           <p>{ el.task }</p>
-          <button className="btn btn-delete">Delete</button>
+          <button className="btn btn-delete" data-index={index} onClick={(e) => { this.delTask(e) }}>Delete</button>
         </li>
       } );
 
