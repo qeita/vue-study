@@ -34,6 +34,7 @@
     methods: {
       addTask(e){
         e.preventDefault();
+        if(this.$refs.input.value === '') return;
 
         // console.log(this.refs.input.value);
         let task = this.$refs.input.value;
@@ -51,7 +52,10 @@
   })
 
   new Vue({
-    el: '#app'
+    el: '#app',
+    template: `
+      <todo />
+    `
   });
 
 

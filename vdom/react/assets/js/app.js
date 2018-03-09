@@ -18,6 +18,7 @@
     addTask(e){
       e.preventDefault();
       // console.log(e);
+      if(this.refs.input.value === '') return;
 
       this.setState({ todos: this.state.todos.concat({ task: this.refs.input.value }) });
 
