@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      div{
+        margin: 0 0 30px;
+      }
+    </style>
+  </head>
+<body>
+  <!-- ① グローバル登録 -->　
+  <div class="app_01">
+    <my-component></my-component>
+    <!--
+    <my-component />
+    -->
+  </div>
+
+  <div class="app_02">
+  </div>
+
+
+  <!-- ② ローカル登録 -->　
+  <div class="app_03">
+    <child-01></child-01>
+  </div>
+
+  <div class="app_04">
+  </div>
+
+  <div class="app_05">
+  </div>
+
+  <script type="text/x-template" id="comp_01">
+    <div>
+      <p>This is the component with x-template</p>
+    </div>
+  </script>
+
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     * グローバルでコンポーネント定義
+     */
+    Vue.component('my-component', {
+      template: '<div>custom component</div>'
+    });
+    
+
+    /**
+     * 01_01 グローバル登録したコンポーネントを呼び出す場合
+     * (html側にコンポーネントを記述)
+     */
+    new Vue({
+      el: '.app_01'
+    });
+
+    /**
+     * 01_02 グローバル登録したコンポーネントを呼び出す場合
+     * (インスタンス内にtemplateを指定)
+     */
+    new Vue({
+      el: '.app_02',
+
+      // template
+      template: '<div>\
+        <my-component></my-component>\
+      </div>',
+      
+    //   template: `<div>
+    //     <my-component />
+    //   </div>`
+    });
+
+
+    let MyComponent = {
+      template: '<div>This is Child Component!</div>'
+    };
+
+    /**
+     * 02_01 ローカル登録したコンポーネントを呼び出す場合
+     * (html側にコンポーネントを記述)
+     */
+    new Vue({
+      el: '.app_03',
+
+      // ローカル登録したものを呼び出すには、componentsを設定
+      // ここでは、'child-01'タグで MyComponent を呼び出せるよう定義
+      components: {
+        'child-01': MyComponent
+      }
+    });
+
+
+    /**
+     * 02_02 ローカル登録したコンポーネントを呼び出す場合
+     * (インスタンス内にtemplateを指定)
+     */
+    new Vue({
+      el: '.app_04',
+      components: {
+        MyComponent,
+      },
+      template: `
+        <MyComponent></MyComponent>
+        <!--
+        <MyComponent />
+        -->
+      `
+    });
+
+
+    /**
+     * 02_03 ローカル登録したコンポーネントを呼び出す場合
+     * (script要素の中で定義)
+     */
+    let Comp = {
+      template: '#comp_01'
+    };
+
+    new Vue({
+      el: '.app_05',
+      components: {
+        Comp
+      },
+      template: `
+        <Comp />
+      `
+    });
+
+
+  </script>
+</body>
+</html>

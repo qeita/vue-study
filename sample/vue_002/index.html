@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>x秒まで攻めるタイムウォッチ | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
+  </head>
+<body>
+
+  <div class="counter">
+    <p class="countNum" v-bind:class="isOver? 'is-over': ''">
+      <span class="countMin">{{ min }}</span>:<span class="countSec">{{ sec }}</span>:<span class="countMiliSec">{{ msec }}</span>
+    </p>
+
+    <!-- statusの値に応じて、表示の出しわけを行う -->
+    <button class="btn countStartBtn" v-if="status == 0" v-on:click="startCount">START</button>
+    <button class="btn countStopBtn" v-else-if="status == 1" v-on:click="stopCount">STOP </button>
+    <button class="btn countResetBtn" v-else v-on:click="resetCount">RESET</button>
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+  new Vue({
+    el: '.counter',
+    data: function(){
+      return {
+        status: 0, // 0: 開始前, 1: カウント中, 2: カウント停止
+        isOver: false,
+        currentTime: null,
+        startTime: null
+      }
+    },
+    computed: {
+      min: function(){
+        if(this.status === 0) return '00'; // ステータスがカウント前の場合
+        let d = parseInt( (new Date(this.currentTime).getTime() - new Date(this.startTime).getTime()) /1000);
+        let min = parseInt((d / 60) % 60);
+        return ('00' + min).slice(-2);
+      },
+      sec: function(){
+        if(this.status === 0) return '00';
+        let d = parseInt( (new Date(this.currentTime).getTime() - new Date(this.startTime).getTime()) /1000);
+        let sec = d % 60;
+        return ('00' + sec).slice(-2);
+      },
+      msec: function(){
+        if(this.status === 0) return '000';
+        let msec = new Date(this.currentTime).getTime() - new Date(this.startTime).getTime();
+        return ('000' + msec).slice(-3);
+      }
+    },
+    mounted(){
+      // マウント時点で、リアクティブな処理を行わない変数を定義
+      this.timer = null;
+      this.limitTime = {
+        sec: 10,
+        msec: 1
+      }
+    },
+    methods: {
+      // カウントアップロジック
+      countUp(){
+        this.timer = setTimeout( () => {
+          this.currentTime = new Date();
+          this.countUp();
+        }, 1000/60);
+      },
+
+      startCount(){
+        this.status++;
+        this.startTime = new Date();
+        this.countUp();
+      },
+      stopCount(){
+        this.status++;
+        clearTimeout(this.timer);
+
+        if(parseInt(this.sec, 10) >= this.limitTime.sec && parseInt(this.msec, 10) >= this.limitTime.msec){
+          this.isOver = true;
+        }
+      },
+      resetCount(){
+        this.status = 0;
+        this.isOver = false;
+      }
+    }
+  });
+
+  </script>
+</body>
+</html>

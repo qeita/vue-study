@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+  </head>
+<body>
+  <!-- div#app要素に対しVueインスタンスを付与 -->
+  <div id="app">
+    <p>{{ message }}</p>
+
+    <!-- 二重波括弧内で式を扱うことが可能。但し、文は使えないため、if文のように条件で振り分ける場合は三項演算子で対応。 -->
+    <p>{{ message + 'さん'}}</p>
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     * 変数appにインスタンスを代入、
+     * ディベロッパーツールのコンソールタブで 'app.message = "xxx"' を実行すると
+     * データが変更され、表示されている文字列もリアクティブに切り替わる
+     */
+    let app = new Vue({
+      el: '#app',
+
+      // データ
+      data: function(){
+        return {
+          message: 'Hello, Vue.js'
+        }
+      }
+    });
+  </script>
+</body>
+</html>

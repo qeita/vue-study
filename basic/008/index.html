@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      div{
+        margin: 0 0 30px;
+      }
+    </style>
+  </head>
+<body>
+  <div class="app_01">
+    <ul>
+      <li v-for="item, index in items">{{ index }} {{ item }}</li>
+    </ul>
+  </div>
+
+  <div class="app_02">
+    <ul>
+      <li v-for="item, index in items">{{ item.id }} {{ item.text }}</li>
+    </ul>
+  </div>
+      
+  <div class="app_03">
+    <ul>
+      <li v-for="item, key in items">{{ key }}: {{ item }}</li>
+    </ul>
+  </div>
+
+  <div class="app_04">
+    <ul>
+      <li v-for="item, index in items">{{ item }}</li>
+    </ul>
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     */
+    new Vue({
+      el: '.app_01',
+      data: function(){
+        return {
+          // itemsが配列形式
+          items: [
+            'アイウエオ',
+            'カキクケコ',
+            'サシスセソ',
+            'タチツテト',
+            'ナニヌネノ'
+          ]
+        }
+      }
+    });
+
+    new Vue({
+      el: '.app_02',
+      data: function(){
+        return {
+          // itemsが配列形式
+          items: [
+            {id: 1, text: 'あいうえお'},
+            {id: 2, text: 'かきくけこ'},
+            {id: 3, text: 'さしすせそ'},
+            {id: 4, text: 'たちつてと'},
+            {id: 5, text: 'まみむめも'}
+          ]
+        }
+      }
+    });
+
+    new Vue({
+      el: '.app_03',
+      data: function(){
+        return {
+          // itemsがオブジェクト形式
+          items: {
+            id: 1,
+            name: 'Taro',
+            age: 25
+          }
+        }
+      }
+    });
+
+    new Vue({
+      el: '.app_04',
+      data: function(){
+        return {
+          // 整数のパターンもv-forに対応
+          items: 10
+        }
+      }
+    });
+
+  </script>
+</body>
+</html>

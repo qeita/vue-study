@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      .btn{
+        margin: 10px 0;
+        padding: 10px 0;
+        width: 120px;
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        color: #44d;
+        background: none;
+        border: 2px solid #44d;
+        border-radius: 4px;
+        outline: none;
+        transition: 0.3s all;
+      }
+      .btn:hover{
+        background: #44d;
+        color: #fff;
+      }
+
+      .btn--alert{
+        color: #d22;
+        border: 2px solid #d22;        
+      }
+      .btn--alert:hover{
+        background: #d22;
+        color: #fff;
+      }
+    </style>
+  </head>
+<body>
+  <div id="app">
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    // ボタンコンポーネント
+    let Btn = {
+      props: ['className', 'labelName', 'index'],
+      template: '<button v-bind:class="className" v-on:click="setState">{{ labelName }}</button>',
+      methods: {
+        setState(){
+          // 親から受け取ったpropsの一つ、indexを出力
+          console.log(this.index);
+
+          // 親ではindexを文字列として渡していたため、整数に変換してイベント発火
+          this.$emit('changeState', parseInt(this.index, 10));
+        }
+      }
+    };
+
+
+    /**
+     * [子から親への連携]
+     * ここでは、ルートインスタンス > Btn コンポーネント の構成。
+     * 子から直接親の状態を更新することはできないため、
+     * イベントを発火して、それを親が受け取り親の内部で更新する()。
+     * 子から親へ伝搬させるにあたり、以下2つの手順を行う。
+     *
+     * 1) Btnコンポーネント側のメソッド内でイベント発火を記述( this.$emit('カスタムイベント名', パラメータ); )
+     * 2) 親にあたるルートインスタンス側で、Btnコンポーネントにv-on:[カスタムイベント名]=[実行するメソッド]を指定する
+     * 
+     * ここでは、STARTボタンを押すとカウントアップを開始し、
+     * STOPボタンを押すとカウントアップが止まる。
+     */
+    let app = new Vue({
+      el: '#app',
+      data: function(){
+        return {
+          count: 0,
+          // ボタンのラベル名
+          labelName: {
+            start: 'START',
+            stop: 'STOP'
+          },
+
+          // ボタンのスタイル
+          className: {
+            // 標準ボタンのスタイル
+            normal: {
+              btn: true
+            },
+            // アラートボタンのスタイル
+            alert: {
+              btn: true,
+              'btn--alert': true
+            }
+          }
+        }
+      },
+      mounted(){
+        // リアクティブに変更しない要素は、
+        // 以下のように this.[変数名] = 値; のように定義しておくと、あとで参照可能。
+        // ここではカウントアップのためのタイマー変数を定義。
+        this.timer = null;
+      },
+      components: {
+        Btn
+      },
+      template: `
+        <div>
+          <p>{{ count }}</p>
+          <Btn v-bind:className="className.normal" v-bind:labelName="labelName.start" v-bind:index="'1'" v-on:changeState="change" />
+          <Btn v-bind:className="className.alert" v-bind:labelName="labelName.stop" v-bind:index="'2'" v-on:changeState="change" />
+        </div>
+      `,
+      methods: {
+        countUp(){
+          this.timer = setTimeout( () => {
+            this.count += 1;
+
+            // 再帰的に実行
+            this.countUp();
+          }, 1000);
+        },
+
+        countStop(){
+          clearTimeout(this.timer);
+        },
+
+        change(index){
+          // 引数に、子コンポーネント側で発火したイベントのパラメータが受け取れる(ここでは、Btnコンポーネントの this.index)
+          switch(index){
+            case 1:
+              // カウントアップを実行
+              this.countUp();
+              break;
+
+            case 2:
+              // カウントストップを実行
+              this.countStop();
+              break;
+          }
+        }
+      }
+    });
+
+  </script>
+</body>
+</html>

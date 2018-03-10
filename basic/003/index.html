@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+  </head>
+<body>
+  <!-- div#app要素に対しVueインスタンスを付与 -->
+  <div id="app">
+    <p>得点: {{ score }} 点</p>
+    <p>結果: {{ result }} 点</p>
+  </div>
+    
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     * 算出プロパティは、データと同様変数のように記述する
+     * 
+     * 使用想定:
+     * - データに依存して更新されるもの(例: スコアデータをもとに合算・アベレージ)
+     * - 処理負荷を減らすもの
+     */
+    let app = new Vue({
+      el: '#app',
+      data: function(){
+        return {
+          score: 10
+        }
+      },
+      // 算出プロパティ
+      computed: {
+        result: function(){
+          console.log('computed');
+          return this.score + 30;
+        }
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+  </head>
+<body>
+  <!-- div#app要素に対しVueインスタンスを付与 -->
+  <div id="app">
+    <p>{{ greeding }}</p>
+    <button v-on:click="say()">Greeding</button>
+    <button v-on:click="test()">Test</button>
+  </div>
+    
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     * 'v-on:'を付与してVueインスタンス内のメソッドを呼び出すようにしている。
+     */
+    let app = new Vue({
+      el: '#app',
+      data: function(){
+        return {
+          greeding: 'Hello'
+        }
+      },
+      methods: {
+        say(){
+          if(this.greeding.indexOf('Vue') > 0) return; // 複数回実行されないよう、文字列から実行判定
+
+          console.log(this);
+
+          this.greeding += ', Vue.js';
+
+          setTimeout( () => {
+            this.greeding = 'Hello';
+          }, 1500);
+        },
+
+        // これはNG(Vueではインスタンスプロパティまたはコールバックでアロー関数を実行しないこと!)
+        test: () => {
+          console.log(this);
+
+          this.greeding += ', Vue.js';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

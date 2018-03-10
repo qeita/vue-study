@@ -1,0 +1,14 @@
+html,body{
+  height: 100%;
+}
+
+.container{
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.rect{
+  position: absolute;
+  border-radius: 50%;
+}

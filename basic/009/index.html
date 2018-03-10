@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      div{
+        margin: 0 0 30px;
+      }
+    </style>
+  </head>
+<body>
+  <div class="app_01">
+    <input type="text" v-model="message" placeholder="入力してください">
+    <p>{{ message }}</p>
+  </div>
+
+  <div class="app_02">
+    <textarea v-model="message" placeholder="入力してください"></textarea>
+    <p>{{ message }}</p>
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     */
+    new Vue({
+      el: '.app_01',
+      data: function(){
+        return {
+          message: ''
+        }
+      }
+    });
+
+
+    new Vue({
+      el: '.app_02',
+      data: function(){
+        return {
+          message: ''
+        }
+      }
+    });
+  </script>
+</body>
+</html>

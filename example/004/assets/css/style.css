@@ -1,0 +1,24 @@
+html,body{
+  height: 100%;
+}
+
+.container{
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.player{
+  position: absolute;
+  background: #e00;
+}
+.bullet{
+  position: absolute;
+  background: #00e;
+  border-radius: 50%;
+}
+
+.enemy{
+  position: absolute;
+  background: #0e0;
+}

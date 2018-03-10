@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      #app{
+        height: 5000px;
+      }
+      .main{
+        width: 100%;
+        height: 50px;
+        background: #0f0;
+      }
+      .btn-top{
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 80px;
+        height: 80px;
+        background: #888;
+        transition: 0.3s all;
+        cursor: pointer;
+      }
+      .btn-top:after{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -75%);
+        border: 20px solid transparent;
+        border-bottom: 20px solid #fff;        
+        content: '';
+      }
+      .btn-top:hover{
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+<body>
+  <div id="app">
+    <div class="sub"></div>
+    <div class="main" ref="main">
+      <section>
+        <article data-article="1"></article>
+        <article data-article="2" ref="article"></article>
+        <article data-article="3"></article>
+        <article data-article="4"></article>
+        <article data-article="5"></article>
+      </section>
+
+      <div class="btn-top" v-on:click="scrollTop"></div>
+    </div>
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+  <script src="./assets/js/libs/jquery-3.3.1.min.js"></script>
+  <script src="./assets/js/libs/smoothscroll.min.js"></script>
+
+  <script>
+    /**
+     */
+    new Vue({
+      el: '#app',
+
+      /**
+       * 参照するタイミングは、this.$elが生成された後のmounted以降がよい
+       */
+      mounted(){
+        /**
+         * 'this.$el'で、Vueインスタンスのelキーで指定したセレクタ要素を参照することができる。
+         * そこから、JSの記述の要領で子・孫要素への参照も可能。
+         */
+        console.log(this.$el);
+        console.log(this.$el.children[0]); // <div class="sub">の要素
+        console.log(this.$el.children[1].children[0].children[3]) // <article data-article="4">の要素
+        console.log( $(this.$el) ); // this.$elをjQueryオブジェクトに変換
+
+        /**
+         * 上記の参照方法は、階層構造によって冗長になる場合がある。
+         * 取得対象の要素が明確な場合、'ref="参照名"' を要素に付与すると、'this.$refs.[参照名]'でアクセスが可能。 
+         */
+        // console.log(this.$refs.main);
+        // console.log(this.$refs.article);
+
+      },
+
+      methods: {
+        // ページトップへスムーススクロール
+        // https://www.npmjs.com/package/smoothscroll
+        scrollTop(){
+          smoothScroll(this.$el);
+        }
+      }
+    });
+
+  </script>
+</body>
+</html>

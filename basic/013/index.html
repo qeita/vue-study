@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      .btn{
+        padding: 10px 0;
+        width: 120px;
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        color: #44d;
+        background: none;
+        border: 2px solid #44d;
+        border-radius: 4px;
+        outline: none;
+        transition: 0.3s all;
+      }
+      .btn:hover{
+        background: #44d;
+        color: #fff;
+      }
+
+      .modal{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .modal-bg{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);        
+      }
+      .modal-content{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 100px;
+        background: #fff;          
+      }
+
+      /* Vueトランジション用クラス */
+      .fade-enter-active, .fade-leave-active{
+        transition: 0.3s all;
+      }
+      .fade-enter, .fade-leave-to{
+        opacity: 0;
+      }
+
+      .scale-enter-active, .scale-leave-active{
+        transition: 0.3s all;
+      }
+      .scale-enter, .scale-leave-to{
+        transform: scale(0);
+      }
+    </style>
+  </head>
+<body>
+  <div id="app">
+    <button class="btn" v-on:click="openModal">OPEN</button>
+
+    <!-- 要素の表示・非表示にトランジションをつける場合、<transition>タグで囲む -->
+    <transition name="fade">
+      <!-- データisOpenが true/false によってモーダルを表示 -->
+      <div class="modal" v-if="isOpen">
+        <div class="modal-bg" v-on:click="closeModal"></div>
+        <div class="modal-content">
+          <p>モーダルですよ</p>
+          <button class="btn" v-on:click="closeModal">CLOSE</button>
+        </div>
+      </div>
+    </transition>
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     */
+    new Vue({
+      el: '#app',
+      data: function(){
+        return {
+          isOpen: false
+        }
+      },
+      methods: {
+        openModal(){
+          this.isOpen = true;
+        },
+        closeModal(){
+          this.isOpen = false;            
+        }
+      }
+    });
+
+  </script>
+</body>
+</html>

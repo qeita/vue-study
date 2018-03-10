@@ -1,0 +1,56 @@
+html,body{
+  height: 100%;
+}
+.counter{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.countNum{
+  margin: 0 0 30px;
+  font-weight: bold;
+  font-size: 10vw;
+  color: #444;  
+}
+.countNum span{
+  display: inline;
+}
+
+.countNum.is-over{
+  color: #e00;
+}
+
+.btn{
+  font-family: 'Anton', sans-serif;
+  font-size: 40px;
+  line-height: 2;
+  background: #ccc;
+  margin: 0 auto;
+  padding: 5px 40px;
+  height: 90px;
+  box-sizing: border-box;
+  display: block;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s all;
+}
+
+.countStartBtn{
+  
+}
+.countStartBtn:hover{
+  padding: 0 35px;
+  border: 5px solid #888;    
+}
+
+/*
+.countStopBtn{
+  display: none;
+}
+
+.countResetBtn{
+  display: none;
+}
+*/

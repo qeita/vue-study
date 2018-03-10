@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      .btn{
+        margin: 10px 0;
+        padding: 10px 0;
+        width: 120px;
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        color: #44d;
+        background: none;
+        border: 2px solid #44d;
+        border-radius: 4px;
+        outline: none;
+        transition: 0.3s all;
+      }
+      .btn:hover{
+        background: #44d;
+        color: #fff;
+      }
+
+      .btn--alert{
+        color: #d22;
+        border: 2px solid #d22;        
+      }
+      .btn--alert:hover{
+        background: #d22;
+        color: #fff;
+      }
+    </style>
+  </head>
+<body>
+  <div id="app">
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    // ボタンコンポーネント
+    let Btn = {
+      props: ['className', 'labelName'],
+      template: '<button v-bind:class="className">{{ labelName }}</button>'
+    };
+
+
+    /**
+     * [親から子への連携]
+     * ここでは、ルートインスタンス > Btn コンポーネント の構成。
+     * 親から子へ伝搬させるにあたり、以下2つの手順を行う。
+     *
+     * 1) Btnコンポーネント側に props を定義し、渡される名前を明記する(ここではprops名 "className", "labelName")
+     * 2) 親にあたるルートインスタンス側で、Btnコンポーネントに[propsで定義した名前]="値"を追加する。
+     *
+     * ディベロッパーツールで 'app.labelName.start = '開始';' を実行したら、
+     * データの更新がBtnコンポーネントのlabelNameに伝搬され、ボタン文字列が反映される。
+     */
+    let app = new Vue({
+      el: '#app',
+      data: function(){
+        return {
+          labelName: {
+            start: 'START',
+            stop: 'STOP'
+          },
+          className: {
+            // 標準ボタンのスタイル
+            normal: {
+              btn: true
+            },
+            // アラートボタンのスタイル
+            alert: {
+              btn: true,
+              'btn--alert': true
+            }
+          }
+        }
+      },
+      components: {
+        Btn
+      },
+      template: `
+        <div>
+          <Btn v-bind:className="className.normal" v-bind:labelName="labelName.start" />
+          <Btn v-bind:className="className.alert" v-bind:labelName="labelName.stop" />
+        </div>
+      `
+    });
+
+  </script>
+</body>
+</html>

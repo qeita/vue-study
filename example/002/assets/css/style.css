@@ -1,0 +1,24 @@
+html,body{
+  height: 100%;
+}
+
+.container{
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.rect{
+  position: absolute;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.is-hit{
+  background: #0e0 !important;
+}
+
+.target{
+  position: absolute;
+  background: #e00;
+}

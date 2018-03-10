@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      .box{
+        background: #0c0;
+        padding: 10px;
+        display: inline-block;
+      }
+      .box.is-alert{
+        background: #c00;
+      }
+      .box.is-alert p{
+        color: #fff;
+      }
+
+      .is-alert p{
+        color: #c00;
+      }
+    </style>
+  </head>
+<body>
+  <!-- div#app要素に対しVueインスタンスを付与 -->
+  <div id="app">
+    <div v-bind:class="classObject">
+      <p>This is binding classes.</p>
+    </div>
+  </div>
+    
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     * v-bindでclass属性をバインドしているため、
+     * データの変更に応じてクラスが切り替わる(例: 'app.classObject.box = false; / app.classObject['is-alert] = true;')
+     */
+    let app = new Vue({
+      el: '#app',
+      data: function(){
+        return {
+          classObject: {
+            box: true,
+            'is-alert': false
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      body{
+        position: relative;
+        overflow: hidden;
+      }
+      canvas{
+        background: url(./assets/img/rice.png) 50% 50%;
+        background-size: 30px auto;
+      }
+      input{
+        position: absolute;
+        bottom: 30px;
+        left: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+  <script>
+  (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
+  </script>
+
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+  <script src="./assets/js/pixi.min.js"></script>
+
+  <script>
+
+  /**
+   * レンダラコンポーネント
+   * @type {Object}
+   */
+  let Renderer = {
+    props: ['umesize'],
+    data: function(){
+      return {
+        isDebug: true,
+        winSize: {
+          w: 0,
+          h: 0
+        }
+      }
+    },
+    // watchプロパティで監視するプロパティを指定
+    watch: {
+      umesize: function(a, b){
+        console.log(a, b); // aには変更後の値、bには変更前の値
+
+        this.player.scale.x = a/60;
+        this.player.scale.y = a/60;
+      }
+    },
+    mounted(){
+      /**
+       * https://alligator.io/vuejs/custom-component-renderers/
+       */
+      this.canvas = this.$refs.canvas;
+      this.winSize.w = window.innerWidth;
+      this.winSize.h = window.innerHeight;
+
+      this.pixiApp = new PIXI.Application(this.winSize.w, this.winSize.h, {
+        view: this.canvas,
+        transparent: true
+      });
+
+      this.pixiApp.render();
+
+      // 梅干し描画
+      this.player = new PIXI.Graphics();
+      this.player.beginFill(0xff3300);
+      this.player.drawCircle(0, 0,  this.umesize);
+      this.player.x = this.winSize.w/2 - this.umesize/2;
+      this.player.y = this.winSize.h/2 - this.umesize/2;
+
+      // console.log(this.refs.canvas);
+      this.pixiApp.stage.addChild(this.player);
+
+      // リサイズ設定
+      window.addEventListener('resize', () => {
+        this.resize();
+      }, false);
+    },
+    template: `
+      <div>
+        <canvas ref="canvas"></canvas>
+      </div>
+    `,
+    methods: {
+      resize(){
+        this.winSize.w = window.innerWidth;
+        this.winSize.h = window.innerHeight;
+            
+        this.pixiApp.renderer.resize(this.winSize.w, this.winSize.h);
+
+        this.player.x = this.winSize.w/2 - this.umesize/2;
+        this.player.y = this.winSize.h/2 - this.umesize/2;
+      }
+    }
+  }
+
+
+  new Vue({
+    el: '#app',
+    data: function(){
+      return {
+        size: 60
+      }
+    },
+    components: {
+      Renderer
+    },
+    template: `
+      <div>
+        <Renderer v-bind:umesize="size" />
+        <input type="range" min="0" max="300" v-bind:value="size" @change="setSize">
+      </div>
+    `,
+    methods: {
+      setSize(e){
+        this.size = e.target.value;
+      }
+    }
+  })
+
+  </script>
+
+</body>
+</html>

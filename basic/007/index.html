@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+      div{
+        margin: 0 0 30px;
+      }
+    </style>
+  </head>
+<body>
+  <!-- ① 条件付きレンダリング -->
+  <div class="app_01">
+    <div v-if="hasData">
+      <p>This value is {{ num }}</p>
+    </div>
+
+    <div v-else>
+      <p>The Value doesn't exit.</p>
+    </div>
+  </div>
+
+  <!-- ② 条件付きレンダリング -->
+  <div class="app_02">
+    <div v-show="hasData">
+      <p>This value is {{ num }}</p>
+    </div>  
+    <!-- <div v-show="!hasData">
+      <p>The Value doesn't exit.</p>
+    </div>   -->
+  </div>  
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     * HTML側でv-ifにデータの'hasData'を参照し判定。
+     * JSの条件式のような扱いで要素の出し分けができる。
+     */
+    let app_01 = new Vue({
+      el: '.app_01',
+      data: function(){
+        return {
+          hasData: true,
+          num: 30
+        }
+      }
+    });
+
+
+    /**
+     * v-showを使うことで表示/非表示を切り替えることも可能。
+     * v-ifとの違いは、cssのdisplayプロパティで切り替えている。
+     * ディベロッパーツールで 'app_02.hasData = false;' を実行すると、'display: none;'がセットされる。
+     */
+     let app_02 = new Vue({
+      el: '.app_02',
+      data: function(){
+        return {
+          hasData: true,
+          num: 30
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+  </head>
+<body>
+  <!-- div#app要素に対しVueインスタンスを付与 -->
+  <div id="app">
+    <p>{{ message }}</p>
+  </div>
+    
+  <script src="../../assets/js/libs/vue.min.js"></script>
+
+  <script>
+    /**
+     * ライフサイクルダイアグラム
+     * 参考: 
+     * https://jp.vuejs.org/v2/guide/instance.html
+     * 
+     * Vueにはインスタンス生成からマウント、データ更新、破棄にあたりイベントがあり、
+     * それらをフックして処理を盛り込むことができる。
+     */
+    let app = new Vue({
+      el: '#app',
+      data: function(){
+        return {
+          message: 'Hi'
+        }
+      },
+
+      // インスタンス生成前
+      beforeCreate(){
+        console.log(this.message);
+        console.log('--- before create ---');
+      },
+
+      // インスタンス生成後
+      created(){
+        console.log(this.message);
+        console.log('--- created ---');
+      },
+
+      // マウント前
+      beforeMount(){
+        console.log('--- before mount ---');
+      },
+
+      // マウント後
+      mounted(){
+        console.log('--- mounted ---');        
+      },
+
+      /**
+       * ディベロッパーツールのコンソールタブで 'app.message = "xxx"' を実行すると、
+       * beforeUpdate, updatedイベントをフックしてコンソールに出力
+       */
+      // 更新データの反映前
+      beforeUpdate(){
+        console.log(this.message);
+        console.log('--- before update ---');          
+      },
+
+      // 更新データの反映後
+      updated(){
+        console.log(this.message);
+        console.log('--- updated ---');          
+      },
+
+
+      /**
+       * ディベロッパーツールのコンソールタブで 'app.$destroy();' を実行すると、インスタンスを破棄。
+       * 以降、'app.message = "xxx"'を実行しても文字列は反映されない。
+       */
+      // インスタンス破棄前
+      beforeDestroy(){
+        console.log('--- before destroy ---');                  
+      },
+
+      // インスタンス破棄後
+      destroyed(){
+        console.log('--- destroyed ---');                  
+      }
+
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>キャッチボールにならない名言チャット | Vue.js</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+  </head>
+<body>
+
+  <div class="chat">
+    <div class="chat-box" ref="box">
+      <div class="chat-talks">
+
+        <div class="chat-container" v-for="item in chatData" v-bind:data-role="item.part">
+          <div class="chat-content">
+            <p class="chat-text">{{ item.text }}</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="chat-end" ref="end"></div>
+    </div>
+    <form class="chat-form">
+      <input class="chat-input" type="text" v-model="chatText" placeholder="Aa">
+      <button class="chat-btn" v-on:click="sendMsg"><img src="./assets/img/icn-submit.png" alt="送信"></button>
+    </form>
+  </div>
+
+  <script src="../../assets/js/libs/vue.min.js"></script>
+  <script src="./assets/js/libs/smoothscroll.min.js"></script>
+
+  <script>
+  new Vue({
+    el: '.chat',
+    data: function(){
+      return {
+        chatData: [], // チャットログ
+        chatText: ''
+      }
+    },
+    mounted(){
+      this.patterns = [
+        {id: 1, text: 'へんじがない ただのしかばねのようだ'},
+        {id: 2, text: 'おはようございます ゆうべはおたのしみでしたね'},
+        {id: 3, text: 'おお○○よ しんでしまうとはなさけない'},
+        {id: 4, text: 'ふっかつのじゅもんがちがいます'},
+        {id: 5, text: 'おきのどくですが ぼうけんのしょは きえてしまいました'},
+        {id: 6, text: 'いやー さがしましたよ'},
+        {id: 7, text: 'なんと このわしが好きと申すか!?'},
+        {id: 8, text: 'ふ～ん 仲がいいか……。 まあ よく知らないと そう見えるかもね。'},
+        {id: 9, text: 'わーい！　ありがとう！'},
+        {id: 10, text: 'ならばわしのおかしたあやまちも わしの人生にとって意味のある事だったのじゃろうか？'},
+        {id: 11, text: 'よくぞ でかした！ では みなのもの ひきあげじゃあ！'},
+        {id: 12, text: 'トンヌラというのはどうだろうかっ!?'},
+        {id: 13, text: 'おろかものめ！ いしとなり えいえんのときを くやむがよい！'},
+        {id: 14, text: 'そーれ ハッスル ハッスル'},
+        {id: 15, text: 'それ 言いすぎ'},
+        {id: 16, text: '遊んでくれてありがとう。つまらなかったわ'},
+        {id: 17, text: '世界の半分を○○にやろう'},
+        {id: 18, text: 'わしはぴちぴちぎゃるになりたいのう'}
+      ];
+
+      this.isEnable = true;
+
+      // this.box = this.$el.children[0];
+      // this.end = this.$el.children[0].children[1];
+      this.box = this.$refs.box;
+      this.end = this.$refs.end;
+    },
+    methods: {
+      sendMsg(e){
+        e.preventDefault();
+        if(!this.chatText || !this.isEnable) return;
+
+        this.pushMsg({
+          part: 'me',
+          text: this.chatText
+        });
+
+        this.chatText = '';
+      },
+
+      pushMsg(obj){
+        this.chatData.push({part: obj.part, text: obj.text});
+
+        /**
+         * DOMを取得する場合は、'this.$el'で参照できる。
+         */
+        // console.log(this.$el);
+        // console.log(this.$el.children[0]);
+        // console.log(this.$el.children[0].children[1]);
+
+        /**
+         * もしくは、対象要素にref属性を付与し、'this.$refs.[ref属性の値]'でも参照可。
+         */
+        // console.log(this.$refs.box);
+        // console.log(this.$refs.end);
+
+        // 画面下端まで行ったらスムーススクロールさせる
+        smoothScroll(this.end, 300, function(){}, this.box);
+
+        if(obj.part === 'me'){
+          let delay = 500 + Math.random() * 1000;
+
+          setTimeout( () => {
+            let n = Math.floor(Math.random() * this.patterns.length);
+
+            this.pushMsg({
+              part: 'other',
+              text: this.patterns[n].text
+            });
+
+            this.isEnable = true;
+          }, delay ); 
+        }
+      }
+    }
+  });
+  </script>
+</body>
+</html>
